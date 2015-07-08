@@ -1,0 +1,25 @@
+#!/bin/sh
+TEX=$*
+BASE=`/usr/bin/basename "$TEX" ".tex"`
+
+# THECODE=`nkf -g "$TEX"`
+# case $THECODE in
+  # UTF-8)        KANJI="-kanji=utf8" ;;
+  # EUC-JP)       KANJI="-kanji=euc"  ;;
+  # Shift_JIS)    KANJI="-kanji=sjis" ;;
+  # ISO-2022-JP)  KANJI="-kanji=jis"  ;;
+# esac
+
+LATEX="pdflatex"
+BIBTEX="bibtex"
+
+$LATEX $TEX
+$BIBTEX $BASE
+$LATEX $TEX
+$LATEX $TEX
+rm ${BASE}.aux
+rm ${BASE}.log
+rm ${BASE}.bbl
+rm ${BASE}.blg
+# dvipdfmx $BASE
+gv ${BASE}.pdf
